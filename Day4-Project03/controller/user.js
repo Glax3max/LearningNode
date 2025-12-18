@@ -8,17 +8,11 @@ async function handleSignup(req,res) {
     if(!email.includes("@",1)) {
         return res.send("Enter a valid email");
     }
-    let hashPass1 = "73";
-
-    console.log("Hello")
-    await bcrypt.hash(password,9).then((hash)=> {
-        hashPass1 = hash
-    })
 
     await user.create({
         name,
         email,
-        password:hashPass1
+        password
     })
 
     return res.render("home")
@@ -28,21 +22,19 @@ async function handleSignup(req,res) {
 async function handleSignin(req,res) {
       const {email,password} = req.body;
       const User = await user.findOne({
-        email
+        email,
+        password
       })
-      const match = await bcrypt.compare(password,User.password)
-
-    if(!match) {
-        console.log("not found")
+    
+    if(!User) {
         return res.render("signin",{
             message:"Password or email wrong"
         })
     }
 
-    const sessionId = uuidv4();
-
-    setUser(sessionId,User.name);
-    res.cookie('uid',sessionId);
+    const token =  setUser(User)
+    // console.log(token)
+    res.cookie('uid',token);
     return res.redirect("/")
 }
 

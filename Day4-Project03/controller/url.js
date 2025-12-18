@@ -3,14 +3,17 @@ const url = require("../models/url")
 async function handleLongUrl(req,res) {   
     const shortId = shortid.generate()
     const body = req.body;
-    console.log(body)
+    // console.log(body)
     if(!body) {
         return res.status(400).json({err:`Url is required`})
     }
+
+    console.log(req.user)
     await url.create({
         shortUrl:shortId,
         longUrl:body.url,
-        visitedHistory:[]
+        visitedHistory:[],
+        createdBy:req.user._id,
     })
 
     return res.render("home",{
