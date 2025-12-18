@@ -2,8 +2,8 @@ const express  = require("express");
 const { handleLongUrl, handleReturnShortUrl } = require("../controller/url");
 const router = express.Router()
 
-router.get("/",handleLongUrl)
-router.get("/:id",handleReturnShortUrl)
+router.post("/",handleLongUrl)
+router.get("/analytics/:id",handleReturnShortUrl)
 
 
 module.exports = router;

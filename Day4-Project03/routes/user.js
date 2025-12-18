@@ -1,10 +1,12 @@
-const express = require("express")
+const express = require("express");
+const user = require("../models/user");
+const bcrypt = require("bcrypt");
+const { handleSignup, handleSignin } = require("../controller/user");
 const router = express.Router()
 
-router.get("/",(req,res)=> {
-    const body2 = req.body;
-    return res.send(body2)
-})
+
+router.post("/",handleSignup)
+router.post("/login",handleSignin)
 
 
 module.exports = router
