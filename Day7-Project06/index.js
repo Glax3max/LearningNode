@@ -5,6 +5,14 @@ dotenv.config()
 const app = express()
 
 
+
+app.get("/", (req,res)=> {
+    return res.send("Hey there")
+})
+
+app.get("/set/two", (req,res)=> {
+    return res.send("Two is close")
+})
 app.listen(process.env.PORT,()=> {
     console.log("Server is running on port no.:",process.env.PORT)
 })
