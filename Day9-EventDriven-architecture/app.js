@@ -11,8 +11,19 @@ app.use(express.json());
 /* Dependency initialization */
 const emailService = new EmailService();
 const inventoryService = new InventoryService();
-const orderService = new OrderService(emailService,inventoryService);
+const orderService = new OrderService();
 const orderController = new OrderController(orderService);
+
+/* Register Listeners (subscribers) */
+orderService.on("Order:created",(orderData)=> {
+    // email service
+    emailService.sendEmail(orderData);
+})
+
+orderService.on("Order:created",(orderData) => {
+    // inventory service
+    inventoryService.updateInventory(orderData)
+})
 
 /* Routes */
 

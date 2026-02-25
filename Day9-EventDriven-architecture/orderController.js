@@ -6,6 +6,6 @@ export class OrderController{
         // Inital processing
 
         const order = this.orderService.createOrder(req.body);
-        return res.json({message:"Order created!"}); 
+        return res.json(order); 
     }
 }
